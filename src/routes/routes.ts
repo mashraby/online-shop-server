@@ -1,17 +1,21 @@
 import { Router } from "express";
 import multer from "multer";
-const upload = multer({ dest: "uploads/" });
+import path from "path";
 const router = Router();
 
 import categories from "../controllers/categories.controller";
 import products from "../controllers/products.controller";
 
-const uploadConfig = [
-  {
-    name: "imgs",
-    maxCount: 8,
+const storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, path.join(__dirname + "/../uploads/"));
   },
-];
+  filename: function (req, file, cb) {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: storage });
 
 router
   // Categories requests
@@ -21,6 +25,6 @@ router
   .delete("/categories/:id", categories.DELETE)
   //Products requests
   .get("/products", products.GET)
-  .post("/products", upload.fields(uploadConfig), products.POST);
+  .post("/products", upload.array("imgs", 5), products.POST);
 
 export default router;

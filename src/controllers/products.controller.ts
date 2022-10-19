@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
 import products from "../model/products.model";
+import multer from "multer";
+multer({ dest: "uploads/" });
 
 export default {
   GET: async (req: Request, res: Response) => {
@@ -11,15 +13,18 @@ export default {
   },
   POST: async (req: Request, res: Response) => {
     try {
-      const { name, price, imgs, description, categorieID } = req.body;
+      const imgs = req.files;
+      const { name, price, description, categorieID } = req.body;
 
       const createdProduct = await products.create({
-        name,
-        price,
-        imgs,
-        description,
-        categorieID,
+        name: name,
+        price: price,
+        imgs: imgs,
+        description: description,
+        categorieID: categorieID,
       });
+
+      console.log(imgs, req.body);
 
       res.json(createdProduct);
     } catch (err) {

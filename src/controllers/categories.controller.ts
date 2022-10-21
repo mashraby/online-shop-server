@@ -13,9 +13,12 @@ export default {
     try {
       const { name } = req.body;
 
-      const createdCategorie = await categories.create({ name });
+      await categories.create({ name });
 
-      res.json(createdCategorie);
+      res.json({
+        status: "OK",
+        message: "Category added",
+      });
     } catch (err) {
       throw new Error(err.message);
     }
@@ -27,7 +30,10 @@ export default {
 
       await categories.findByIdAndUpdate(id, { name });
 
-      res.send("OK");
+      res.json({
+        status: "OK",
+        message: "The category has been changed",
+      });
     } catch (err) {
       throw new Error(err.message);
     }
@@ -38,7 +44,10 @@ export default {
 
       await categories.findByIdAndDelete(id);
 
-      res.send("OK");
+      res.json({
+        status: "OK",
+        message: "The category has been removed",
+      });
     } catch (err) {
       throw new Error(err.message);
     }

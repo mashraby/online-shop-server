@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import products from "../model/products.model";
-import multer from "multer";
-multer({ dest: "uploads/" });
 
 export default {
   GET: async (req: Request, res: Response) => {
@@ -11,12 +9,27 @@ export default {
       throw new Error(err.message);
     }
   },
+  GET_BY_ID: async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+
+      res.json(await products.findById({ _id: id }));
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  },
   POST: async (req: Request, res: Response) => {
     try {
-      const imgs = req.files;
+      const imgs = req.files as any;
       const { name, price, description, categorieID } = req.body;
 
-      const createdProduct = await products.create({
+      for (let i = 0; i < imgs.length; i++) {
+        let element = imgs[i];
+
+        element.url = "http://localhost:8000/api/v1/" + element.originalname;
+      }
+
+      await products.create({
         name: name,
         price: price,
         imgs: imgs,
@@ -24,9 +37,46 @@ export default {
         categorieID: categorieID,
       });
 
-      console.log(imgs, req.body);
+      res.json({
+        status: "OK",
+        message: "Product added",
+      });
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  },
+  PUT: async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+      const imgs = req.files as any;
+      const { name, price, description } = req.body;
 
-      res.json(createdProduct);
+      for (let i = 0; i < imgs.length; i++) {
+        const element = imgs[i];
+
+        element.url = "http://localhost:8000/api/v1/" + element.originalname;
+      }
+
+      await products.findByIdAndUpdate(id, { name, price, imgs, description });
+
+      res.send({
+        status: "OK",
+        message: "The product has been changed",
+      });
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  },
+  DELETE: async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+
+      await products.findByIdAndDelete(id);
+
+      res.send({
+        status: "OK",
+        message: "The category has been removed",
+      });
     } catch (err) {
       throw new Error(err.message);
     }

@@ -3,10 +3,14 @@ import multer from "multer";
 import path from "path";
 const router = Router();
 
+//Controllers
 import categories from "../controllers/categories.controller";
 import products from "../controllers/products.controller";
 import orders from "../controllers/orders.controller";
 import admins from "../controllers/admins.controller";
+
+//Middlewares
+import verifyRole from "../middlewares/verifyRole.middleware";
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -35,7 +39,7 @@ router
   .get("/orders", orders.GET)
   .post("/orders", orders.POST)
   //Admins requests
-  .get("/admins", admins.GET)
+  .get("/admins", verifyRole, admins.GET)
   .post("/admins", admins.POST);
 
 export default router;

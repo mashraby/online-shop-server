@@ -1,4 +1,5 @@
 import { Request, Response } from "express";
+import bcrypt from "bcryptjs";
 import admins from "../model/admins.model";
 
 export default {
@@ -13,7 +14,11 @@ export default {
     try {
       const { username, password } = req.body;
 
-      await admins.create({ username, password, role: "admin" });
+      await admins.create({
+        username,
+        password: await bcrypt.hash(password, 6),
+        role: "admin",
+      });
 
       res.json({
         status: "OK",

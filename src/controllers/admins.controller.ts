@@ -1,23 +1,23 @@
 import { Request, Response } from "express";
-import categories from "../model/categories.model";
+import admins from "../model/admins.model";
 
 export default {
   GET: async (_: Request, res: Response) => {
     try {
-      res.json(await categories.find());
+      res.json(await admins.find());
     } catch (err) {
       throw new Error(err.message);
     }
   },
   POST: async (req: Request, res: Response) => {
     try {
-      const { name } = req.body;
+      const { username, password } = req.body;
 
-      await categories.create({ name });
+      await admins.create({ username, password, role: "admin" });
 
       res.json({
         status: "OK",
-        message: "Category added",
+        message: "Added new admin",
       });
     } catch (err) {
       throw new Error(err.message);
@@ -25,29 +25,12 @@ export default {
   },
   PUT: async (req: Request, res: Response) => {
     try {
-      const { id } = req.params;
-      const { name } = req.body;
-
-      await categories.findByIdAndUpdate(id, { name });
-
-      res.json({
-        status: "OK",
-        message: "The category has been changed",
-      });
     } catch (err) {
       throw new Error(err.message);
     }
   },
   DELETE: async (req: Request, res: Response) => {
     try {
-      const { id } = req.params;
-
-      await categories.findByIdAndDelete(id);
-
-      res.json({
-        status: "OK",
-        message: "The category has been removed",
-      });
     } catch (err) {
       throw new Error(err.message);
     }

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import products from "../model/products.model";
 
 export default {
-  GET: async (req: Request, res: Response) => {
+  GET: async (_: Request, res: Response) => {
     try {
       res.json(await products.find());
     } catch (err) {
@@ -59,7 +59,7 @@ export default {
 
       await products.findByIdAndUpdate(id, { name, price, imgs, description });
 
-      res.send({
+      res.json({
         status: "OK",
         message: "The product has been changed",
       });
@@ -73,7 +73,7 @@ export default {
 
       await products.findByIdAndDelete(id);
 
-      res.send({
+      res.json({
         status: "OK",
         message: "The category has been removed",
       });

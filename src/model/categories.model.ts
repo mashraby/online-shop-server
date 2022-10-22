@@ -6,6 +6,16 @@ const CategorieSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
+  created_at: {
+    type: Date,
+    default: Date.now,
+    required: true,
+  },
+  updated_at: {
+    type: Date,
+    default: Date.now,
+    required: true,
+  },
 });
 
 const CategorieModel = mongoose.model("categories", CategorieSchema);

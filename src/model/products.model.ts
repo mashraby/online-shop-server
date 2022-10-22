@@ -21,6 +21,16 @@ const ProductSchema = new Schema({
     type: Types.ObjectId,
     ref: "categories",
   },
+  created_at: {
+    type: Date,
+    default: Date.now,
+    required: true,
+  },
+  updated_at: {
+    type: Date,
+    default: Date.now,
+    required: true,
+  },
 });
 
 const ProductModel = mongoose.model("products", ProductSchema);

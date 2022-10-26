@@ -18,17 +18,11 @@ const ProductSchema = new Schema({
     required: true,
   },
   categorieID: {
-    type: Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: "categories",
   },
   created_at: {
     type: Date,
-    default: Date.now,
-    required: true,
-  },
-  updated_at: {
-    type: Date,
-    default: Date.now,
     required: true,
   },
 });

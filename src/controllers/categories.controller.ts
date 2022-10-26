@@ -1,10 +1,26 @@
 import { Request, Response } from "express";
+import moment from "moment";
 import categories from "../model/categories.model";
 
 export default {
   GET: async (_: Request, res: Response) => {
     try {
-      res.json(await categories.find());
+      const allCategory = await categories.find();
+
+      for (let i = 0; i < allCategory.length; i++) {
+        const element = allCategory[i] as any;
+
+        return moment(element.created_at).format("MMMM Do YYYY, h:mm:ss a");
+      }
+
+      // console.log(allCategory);
+
+      res.json(
+        await categories.find().populate({
+          path: "products",
+          select: `_id name price imgs description}`,
+        })
+      );
     } catch (err) {
       throw new Error(err.message);
     }

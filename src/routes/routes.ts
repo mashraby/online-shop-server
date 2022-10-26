@@ -32,6 +32,7 @@ router
   //Products requests
   .get("/products", products.GET)
   .get("/products/:id", products.GET_BY_ID)
+  .get("/products/:ctgId", products.GET_CATEGORIE_ID)
   .post("/products", upload.array("imgs", 5), products.POST)
   .put("/products/:id", upload.array("imgs", 5), products.PUT)
   .delete("/products/:id", products.DELETE)
@@ -40,6 +41,7 @@ router
   .post("/orders", orders.POST)
   //Admins requests
   .get("/admins", verifyRole, admins.GET)
-  .post("/admins", admins.POST);
+  .post("/admins", admins.POST)
+  .post("/login", admins.LOGIN);
 
 export default router;

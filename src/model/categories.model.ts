@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Schema } from "mongoose";
 
 const CategorieSchema = new mongoose.Schema({
   name: {
@@ -6,12 +6,13 @@ const CategorieSchema = new mongoose.Schema({
     unique: true,
     required: true,
   },
+  products: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "products",
+    },
+  ],
   created_at: {
-    type: Date,
-    default: Date.now,
-    required: true,
-  },
-  updated_at: {
     type: Date,
     default: Date.now,
     required: true,

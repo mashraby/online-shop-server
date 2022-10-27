@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import products from "../model/products.model";
 import categories from "../model/categories.model";
-import mongoose from "mongoose";
+import validator from "../utils/validator";
 
 export default {
   GET: async (_: Request, res: Response) => {
@@ -20,23 +20,17 @@ export default {
       throw new Error(err.message);
     }
   },
-  GET_CATEGORIE_ID: async (req: Request, res: Response) => {
-    try {
-      const { ctgId } = req.params;
-
-      const ctgProducts = await products.find({ categorieID: ctgId });
-
-      console.log(ctgProducts);
-
-      res.send("ok");
-    } catch (err) {
-      throw new Error(err.message);
-    }
-  },
   POST: async (req: Request, res: Response) => {
     try {
       const imgs = req.files as any;
       const { name, price, description, categorieID } = req.body;
+
+      const { error, value } = validator.validateProduct(req.body);
+
+      if (error) {
+        console.log(error, value);
+        return res.send(error.details);
+      }
 
       for (let i = 0; i < imgs.length; i++) {
         let element = imgs[i];

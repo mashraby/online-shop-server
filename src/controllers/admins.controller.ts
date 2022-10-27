@@ -2,6 +2,7 @@ import { Request, Response } from "express";
 import bcrypt from "bcryptjs";
 import admins from "../model/admins.model";
 import jwt from "../utils/jwt";
+import AdminModel from "../model/admins.model";
 
 export default {
   GET: async (_: Request, res: Response) => {
@@ -15,11 +16,27 @@ export default {
     try {
       const { username, password } = req.body;
 
-      await admins.create({
-        username,
+      // await admins.create({
+      //   username,
+      //   password: await bcrypt.hash(password, 6),
+      //   role: "admin",
+      // });
+
+      const newAdmin = new AdminModel({
+        username: username,
         password: await bcrypt.hash(password, 6),
         role: "admin",
       });
+
+      let error = newAdmin.validateSync();
+
+      if (error) {
+        if (error.errors["status"]) {
+          return res.send(error.errors["status"].message);
+        }
+      }
+
+      await newAdmin.save();
 
       res.json({
         status: "OK",

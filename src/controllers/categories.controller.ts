@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import moment from "moment";
 import categories from "../model/categories.model";
+import validator from "../utils/validator";
 
 export default {
   GET: async (_: Request, res: Response) => {
@@ -13,8 +14,6 @@ export default {
         return moment(element.created_at).format("MMMM Do YYYY, h:mm:ss a");
       }
 
-      // console.log(allCategory);
-
       res.json(
         await categories.find().populate({
           path: "products",
@@ -25,9 +24,24 @@ export default {
       throw new Error(err.message);
     }
   },
+  GET_BY_ID: async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+
+      res.json(await categories.findById({ _id: id }));
+    } catch (err) {
+      throw new Error(err.message);
+    }
+  },
   POST: async (req: Request, res: Response) => {
     try {
       const { name } = req.body;
+      const { error, value } = validator.validateCategory(req.body);
+
+      if (error) {
+        console.log(error, value);
+        return res.send(error.details);
+      }
 
       await categories.create({ name });
 

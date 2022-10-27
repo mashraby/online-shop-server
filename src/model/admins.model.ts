@@ -3,12 +3,14 @@ import mongoose from "mongoose";
 const AdminSchema = new mongoose.Schema({
   username: {
     type: String,
-    unique: true,
-    required: true,
+    required: [true, "Username must be entered !"],
+    unique: [true, "Username must be unique !"],
+    min: [3, "Username must contain at least 3 letters"],
+    max: [12, "Username must contain at least 3 letters"],
   },
   password: {
     type: String,
-    required: true,
+    required: [true, "Username must be entered !"],
   },
   role: {
     type: String,

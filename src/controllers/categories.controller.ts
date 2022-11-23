@@ -1,23 +1,17 @@
 import { Request, Response } from "express";
 import moment from "moment";
 import categories from "../model/categories.model";
-import validator from "../utils/validator";
+import validator from "../validations/categryValidator";
 
 export default {
-  GET: async (_: Request, res: Response) => {
+  GET: async (req: Request, res: Response) => {
     try {
-      const allCategory = await categories.find();
-
-      for (let i = 0; i < allCategory.length; i++) {
-        const element = allCategory[i] as any;
-
-        return moment(element.created_at).format("MMMM Do YYYY, h:mm:ss a");
-      }
+      // const allCategory = await categories.find();
 
       res.json(
         await categories.find().populate({
-          path: "products",
-          select: `_id name price imgs description}`,
+          path: "sub_categories",
+          select: `_id name`,
         })
       );
     } catch (err) {

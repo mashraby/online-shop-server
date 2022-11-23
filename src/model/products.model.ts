@@ -17,9 +17,9 @@ const ProductSchema = new Schema({
     type: String,
     required: true,
   },
-  categorieID: {
+  sub_categorieID: {
     type: Schema.Types.ObjectId,
-    ref: "categories",
+    ref: "sub_categories",
   },
   created_at: {
     type: Date,

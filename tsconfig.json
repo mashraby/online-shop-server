@@ -12,6 +12,11 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true
   },
-  "include": ["./src/**/*.ts", "./server.ts", "./package.json"],
+  "include": [
+    "./src/**/*.ts",
+    "./server.ts",
+    "./package.json",
+    "src/middlewares/verifyToken.middleware.ts"
+  ],
   "exclude": ["./node_modules"]
 }

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import products from "../model/products.model";
 import categories from "../model/categories.model";
-import validator from "../utils/validator";
+import validator from "../validations/productValidator";
 
 export default {
   GET: async (_: Request, res: Response) => {

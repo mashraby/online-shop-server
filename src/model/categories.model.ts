@@ -1,15 +1,15 @@
 import mongoose, { Schema } from "mongoose";
 
-const CategorieSchema = new mongoose.Schema({
+const CategorySchema = new mongoose.Schema({
   name: {
     type: String,
     unique: true,
     required: true,
   },
-  products: [
+  sub_categories: [
     {
       type: Schema.Types.ObjectId,
-      ref: "products",
+      ref: "sub_categories",
     },
   ],
   created_at: {
@@ -19,6 +19,6 @@ const CategorieSchema = new mongoose.Schema({
   },
 });
 
-const CategorieModel = mongoose.model("categories", CategorieSchema);
+const CategoryModel = mongoose.model("categories", CategorySchema);
 
-export default CategorieModel;
+export default CategoryModel;

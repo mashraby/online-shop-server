@@ -1,24 +1,27 @@
 import { Request, Response, NextFunction } from "express";
-import jwt from "jsonwebtoken";
+import { IncomingHttpHeaders } from "http";
+import Verifyer from "./../utils/jwt";
 
-export default (req: Request, res: Response, next: NextFunction) => {
-  const { access_token } = req.headers;
+interface CustomRequest extends Request {
+  headers: IncomingHttpHeaders & {
+    access_token?: string;
+  };
+}
 
-  // if (!access_token) {
-  //   return res.redirect("/");
-  // }
+export const verifyToken = (
+  req: CustomRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  const access_token = req.headers.access_token;
 
-  // jwt.verify(access_token, process.env.SECRET_KEY, (err, decode) => {
-  //   if (err instanceof jwt.TokenExpiredError) {
-  //     return res.redirect("/");
-  //   }
+  if (!access_token) {
+    res.json({
+      message: "Token is not available",
+    });
+  }
 
-  //   if (err instanceof jwt.JsonWebTokenError) {
-  //     return res.redirect("/");
-  //   }
-
-  //   req.data = decode;
-
-  //   next();
-  // });
+  const admin = Verifyer.Verifyer(access_token, res);
+  req.body.admin = admin;
+  next();
 };

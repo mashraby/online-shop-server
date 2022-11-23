@@ -8,9 +8,9 @@ export default (req: Request, res: Response, next: NextFunction) => {
 
   console.log(foundAdmin);
 
-  // if (!foundAdmin) {
-  //   return res.sendStatus(401);
-  // }
+  if (!foundAdmin) {
+    return res.sendStatus(401);
+  }
 
   // req.admin = foundAdmin;
 

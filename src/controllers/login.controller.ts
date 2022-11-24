@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
+import bcrypt from "bcryptjs";
 import AdminModel from "../model/admins.model";
 import validator from "../validations/loginValidator";
 import jwt from "../utils/jwt";
-import bcrypt from "bcryptjs";
 
 export default {
   LOGIN: async (req: Request, res: Response) => {

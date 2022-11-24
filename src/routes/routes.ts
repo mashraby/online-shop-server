@@ -12,7 +12,7 @@ import admins from "../controllers/admins.controller";
 import subcategories from "../controllers/subcategories.controller";
 
 //Middlewares
-import verifyRole from "../middlewares/verifyRole.middleware";
+// import verifyRole from "../middlewares/verifyRole.middleware";
 import { verifyToken } from "../middlewares/verifyToken.middleware";
 
 const storage = multer.diskStorage({
@@ -30,7 +30,7 @@ const upload = multer({ storage: storage });
 router
   .post("/login", login.LOGIN)
   // .use(verifyToken)
-  .get("/categories", verifyToken, categories.GET)
+  .get("/categories", categories.GET)
   .get("/categories/:id", categories.GET_BY_ID)
   .post("/categories", categories.POST)
   .put("/categories/:id", categories.PUT)
@@ -44,6 +44,7 @@ router
   .post("/orders", orders.POST)
   .get("/admins", admins.GET)
   .post("/admins", admins.POST)
-  .get("/subcategories", subcategories.GET);
+  .get("/subcategories", subcategories.GET)
+  .post("/subcategories", subcategories.POST);
 
 export default router;

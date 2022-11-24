@@ -32,7 +32,7 @@ export default {
       await newAdmin.save();
 
       res.json({
-        status: "OK",
+        status: 200,
         message: "Added new admin",
       });
     } catch (err) {

@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import products from "../model/products.model";
-import categories from "../model/categories.model";
+import subcategories from "../model/subcategories.model";
 import validator from "../validations/productValidator";
 
 export default {
   GET: async (_: Request, res: Response) => {
     try {
-      res.json(await products.find());
+      res.json([]);
     } catch (err) {
       throw new Error(err.message);
     }
@@ -23,7 +23,7 @@ export default {
   POST: async (req: Request, res: Response) => {
     try {
       const imgs = req.files as any;
-      const { name, price, description, categorieID } = req.body;
+      const { name, model, price, description, sub_categorieID } = req.body;
 
       const { error, value } = validator.validateProduct(req.body);
 
@@ -40,24 +40,25 @@ export default {
 
       const newProduct = new products({
         name: name,
+        model: model,
         price: price,
         imgs: imgs,
         description: description,
-        categorieID: categorieID,
+        sub_categorieID: sub_categorieID,
         created_at: Date.now(),
       });
 
-      const foundCategory = (await categories.findById({
-        _id: categorieID,
+      const foundSubCategory = (await subcategories.findById({
+        _id: sub_categorieID,
       })) as any;
 
-      foundCategory.products.push(newProduct._id);
+      foundSubCategory.products.push(newProduct._id);
 
-      await foundCategory.save();
+      await foundSubCategory.save();
       await newProduct.save();
 
       res.json({
-        status: "OK",
+        status: 200,
         message: "Product added",
       });
     } catch (err) {

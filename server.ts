@@ -7,7 +7,7 @@ import router from "./src/routes/routes";
 import path from "path";
 
 const app: express.Application = express();
-const PORT = 9000 || process.env.PORT;
+const PORT = 8000 || process.env.PORT;
 
 mongo()
   .then(() => console.log("Connected"))

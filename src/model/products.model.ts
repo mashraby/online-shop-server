@@ -5,6 +5,10 @@ const ProductSchema = new Schema({
     type: String,
     required: true,
   },
+  model: {
+    type: String,
+    required: true,
+  },
   price: {
     type: Types.Decimal128,
     required: true,

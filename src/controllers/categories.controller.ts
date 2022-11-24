@@ -1,17 +1,14 @@
 import { Request, Response } from "express";
-import moment from "moment";
 import categories from "../model/categories.model";
 import validator from "../validations/categryValidator";
 
 export default {
-  GET: async (req: Request, res: Response) => {
+  GET: async (_: Request, res: Response) => {
     try {
-      // const allCategory = await categories.find();
-
       res.json(
         await categories.find().populate({
           path: "sub_categories",
-          select: `_id name`,
+          select: "_id name",
         })
       );
     } catch (err) {
@@ -40,7 +37,7 @@ export default {
       await categories.create({ name });
 
       res.json({
-        status: "OK",
+        status: 200,
         message: "Category added",
       });
     } catch (err) {
@@ -55,7 +52,7 @@ export default {
       await categories.findByIdAndUpdate(id, { name });
 
       res.json({
-        status: "OK",
+        status: 200,
         message: "The category has been changed",
       });
     } catch (err) {
@@ -69,7 +66,7 @@ export default {
       await categories.findByIdAndDelete(id);
 
       res.json({
-        status: "OK",
+        status: 200,
         message: "The category has been removed",
       });
     } catch (err) {

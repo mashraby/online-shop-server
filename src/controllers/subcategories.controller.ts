@@ -16,6 +16,23 @@ export default {
       throw new Error(err.message);
     }
   },
+  GET_BY_ID: async (req: Request, res: Response) => {
+    try {
+      const { id } = req.params;
+
+      res.json(
+        await (
+          await sub_catebories.findById({ _id: id })
+        ).populate({
+          path: "products",
+          select: "_id name price imgs description created_at",
+        })
+      );
+    } catch (err) {
+      console.log(err);
+      throw new Error(err.message);
+    }
+  },
   POST: async (req: Request, res: Response) => {
     try {
       const { name, categoryID } = req.body;

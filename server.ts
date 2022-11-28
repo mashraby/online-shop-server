@@ -10,7 +10,7 @@ const app: express.Application = express();
 const PORT = 8000 || process.env.PORT;
 
 mongo()
-  .then(() => console.log("Connected"))
+  .then(() => console.log("Connected MongoDB"))
   .catch((err) => console.log(err));
 
 app.use(cors());
@@ -20,6 +20,7 @@ app.use(
   "/api/v1/uploads",
   express.static(path.join(__dirname, "src", "uploads"))
 );
+
 app.use("/*", (_, res) => res.sendStatus(404));
 
 app.listen(PORT, () => {

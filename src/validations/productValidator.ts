@@ -9,7 +9,7 @@ const productSchema = Joi.object({
   model: Joi.string().min(2).max(30).required(),
   price: Joi.number().required(),
   description: Joi.string().min(15).max(400).required(),
-  sub_categoryID: Joi.string().required(),
+  sub_categorieID: Joi.string().required(),
 });
 
 export default {

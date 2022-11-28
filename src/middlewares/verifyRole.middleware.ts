@@ -12,7 +12,7 @@ export default (req: Request, res: Response, next: NextFunction) => {
     return res.sendStatus(401);
   }
 
-  // req.admin = foundAdmin;
+  // req.body.admin = foundAdmin;
 
   next();
 };

@@ -18,7 +18,7 @@ export default {
       const newAdmin = new AdminModel({
         username: username,
         password: await bcrypt.hash(password, 6),
-        role: "admin",
+        role: "superadmin",
       });
 
       let error = newAdmin.validateSync();
